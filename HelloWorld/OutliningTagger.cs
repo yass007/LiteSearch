@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 
 internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
 {
@@ -65,10 +66,18 @@ internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
         //this.ReParse();
     }
 
+
+    public void Update(string targetString)
+    {
+
+    }
+
     public void ReParse()
     {
         ITextSnapshot newSnapshot = buffer.CurrentSnapshot;
         List<Region> newRegions = new List<Region>();
+
+       
 
         //keep the current (deepest) partial region, which will have
         // references to any parent partial regions.

@@ -2,11 +2,15 @@
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
+using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Utilities;
 using Microsoft.VisualStudio;
 using System.Globalization;
 using System.Threading;
@@ -121,13 +125,32 @@ namespace HelloWorld
 
             var tagger = textBuffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>));
 
-            if( tagger is OutliningTagger)
+            if (tagger is OutliningTagger)
             {
                 var taggerTag = tagger as OutliningTagger;
 
-                taggerTag.ReParse();
+                var textStructureNavigatorSelectorService = componentModel.GetService<ITextStructureNavigatorSelectorService>();
+
+                var navigator = textStructureNavigatorSelectorService.GetTextStructureNavigator(textView.TextBuffer);
+
+                SnapshotPoint activePoint;
+                if (!textView.Selection.IsEmpty)
+                    activePoint = textView.Selection.Start.Position;
+                else
+                    activePoint = textView.Caret.Position.BufferPosition;
+
+                var currentWord = navigator.GetExtentOfWord(activePoint);
+                if (!currentWord.Span.IsEmpty && currentWord.IsSignificant)
+                {
+                    string wordText = textView.TextSnapshot.GetText(currentWord.Span);
+                    System.Diagnostics.Debug.WriteLine(wordText);
+
+                    taggerTag.Update(wordText);
+
+                }
 
             }
         }
     }
+    
 }
