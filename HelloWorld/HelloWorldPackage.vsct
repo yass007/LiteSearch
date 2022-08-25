@@ -56,7 +56,7 @@
         <Parent guid="guidHelloWorldPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>My Button!</ButtonText>
+          <ButtonText>Solved!!</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -72,7 +72,15 @@
     </Bitmaps>
   </Commands>
 	
+	<KeyBindings>
+		<KeyBinding guid="guidHelloWorldPackageCmdSet" id="CommandId"
+			key1="R" mod1="Control" editor="guidTextEditor" />
+	</KeyBindings>
+	
   <Symbols>
+	  
+    <GuidSymbol name="guidTextEditor" value="{8b382828-6202-11d1-8870-0000f87579d2}" />
+	  
     <!-- This is the package guid. -->
     <GuidSymbol name="guidHelloWorldPackage" value="{22101a20-2fa9-407d-89f5-f36e04a493a1}" />
 
@@ -91,10 +99,4 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
   </Symbols>
-
-	<KeyBindings>
-		<KeyBinding guid="guidHelloWorldPackageCmdSet" id="CommandId"
-			key1="J" mod1="CONTROL" mod2="SHIFT" editor="guidVSStd97" />
-	</KeyBindings>
-
 </CommandTable>

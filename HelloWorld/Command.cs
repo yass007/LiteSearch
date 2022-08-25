@@ -146,6 +146,7 @@ namespace HelloWorld
                     System.Diagnostics.Debug.WriteLine(wordText);
 
                     taggerTag.Update(wordText);
+                    taggerTag.Update(wordText);
 
                 }
 
