@@ -74,7 +74,7 @@
 	
 	<KeyBindings>
 		<KeyBinding guid="guidHelloWorldPackageCmdSet" id="CommandId"
-			key1="R" mod1="Control" editor="guidTextEditor" />
+			key1="=" mod1="Control" editor="guidTextEditor" />
 	</KeyBindings>
 	
   <Symbols>

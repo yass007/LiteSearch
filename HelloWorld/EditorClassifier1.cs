@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
 
@@ -19,9 +20,12 @@ namespace HelloWorld
         /// Initializes a new instance of the <see cref="EditorClassifier1"/> class.
         /// </summary>
         /// <param name="registry">Classification registry.</param>
-        internal EditorClassifier1(IClassificationTypeRegistryService registry)
+        internal EditorClassifier1(IClassificationTypeRegistryService registry, ITextBuffer inBuffer)
         {
             this.classificationType = registry.GetClassificationType("EditorClassifier1");
+
+            this.buffer = inBuffer ?? throw new ArgumentNullException(nameof(inBuffer));
+            this.snapshot = inBuffer.CurrentSnapshot;
         }
 
         #region IClassifier
@@ -51,14 +55,43 @@ namespace HelloWorld
         /// <returns>A list of ClassificationSpans that represent spans identified to be of this classification.</returns>
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {
-            var result = new List<ClassificationSpan>()
-            {
-                new ClassificationSpan(new SnapshotSpan(span.Snapshot, new Span(span.Start, span.Length)), this.classificationType)
-            };
+            ReParse();
 
-            return result;
+            return classificationSpans;
         }
 
-        #endregion
+        ITextBuffer buffer;
+        ITextSnapshot snapshot;
+        List<ClassificationSpan> classificationSpans = new List<ClassificationSpan>();
+
+        public void ReParse()
+        {
+            ITextSnapshot newSnapshot = buffer.CurrentSnapshot;
+            classificationSpans = new List<ClassificationSpan>();
+
+            var tagger = buffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>)) as OutliningTagger;
+            string targetString = tagger.TargetText;
+
+            if(targetString != "")
+            {
+                foreach (var line in newSnapshot.Lines)
+                {
+                    int wordOffset = 0;
+                    string text = line.GetText();
+
+                    while ((wordOffset = text.IndexOf(targetString, wordOffset, StringComparison.Ordinal)) != -1)
+                    {
+                        var startPoint = snapshot.GetLineFromLineNumber(line.LineNumber);
+
+                        classificationSpans.Add(new ClassificationSpan(new SnapshotSpan(startPoint.Start + wordOffset, startPoint.Start + wordOffset + targetString.Length), this.classificationType));
+
+                        wordOffset += targetString.Length;
+                    }
+                }
+            }
+        }
     }
+
+    #endregion
+
 }

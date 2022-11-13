@@ -18,7 +18,8 @@ internal sealed class OutliningTaggerProvider : ITaggerProvider
     {
         //create a single tagger for each buffer.
         Func<ITagger<T>> sc = delegate () { return new OutliningTagger(buffer) as ITagger<T>; };
-        return buffer.Properties.GetOrCreateSingletonProperty<ITagger<T>>(sc);
-    }
 
+        ITagger < T > tagger = buffer.Properties.GetOrCreateSingletonProperty<ITagger<T>>(sc);
+        return tagger;
+    }
 }

@@ -99,17 +99,17 @@ namespace HelloWorld
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string message = "Say Hello World!";
-            string title = "Command";
+            //string message = "Say Hello World!";
+            //string title = "Command";
 
-            //// Show a message box to prove we were here
-            //VsShellUtilities.ShowMessageBox(
-            //    this.package,
-            //    message,
-            //    title,
-            //    OLEMSGICON.OLEMSGICON_INFO,
-            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            ////// Show a message box to prove we were here
+            ////VsShellUtilities.ShowMessageBox(
+            ////    this.package,
+            ////    message,
+            ////    title,
+            ////    OLEMSGICON.OLEMSGICON_INFO,
+            ////    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+            ////    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
 
             var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
             var textManager = (IVsTextManager)Package.GetGlobalService(typeof(SVsTextManager));
@@ -122,13 +122,10 @@ namespace HelloWorld
 
             var textBuffer = textView.TextBuffer;
 
+            var tagger = textBuffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>)) as OutliningTagger;
 
-            var tagger = textBuffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>));
-
-            if (tagger is OutliningTagger)
+            if(!tagger.AreTagsActive())
             {
-                var taggerTag = tagger as OutliningTagger;
-
                 var textStructureNavigatorSelectorService = componentModel.GetService<ITextStructureNavigatorSelectorService>();
 
                 var navigator = textStructureNavigatorSelectorService.GetTextStructureNavigator(textView.TextBuffer);
@@ -145,13 +142,40 @@ namespace HelloWorld
                     string wordText = textView.TextSnapshot.GetText(currentWord.Span);
                     System.Diagnostics.Debug.WriteLine(wordText);
 
-                    taggerTag.Update(wordText);
-                    taggerTag.Update(wordText);
+                    tagger.GenerateTags(wordText);
 
+                    IOutliningManagerService outliningManagerService = componentModel.GetService<IOutliningManagerService>();
+
+                    IOutliningManager _outliningManager = outliningManagerService.GetOutliningManager(textView);
+                    var snapshot = textView.TextSnapshot;
+                    var snapshotSpan = new Microsoft.VisualStudio.Text.SnapshotSpan(snapshot, new Microsoft.VisualStudio.Text.Span(0, snapshot.Length));
+
+                    var regions = _outliningManager.GetAllRegions(snapshotSpan);
+                    foreach (var reg in regions)
+                    {
+                        if (tagger.IsValidRegion(reg))
+                        {
+                            _outliningManager.TryCollapse(reg);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                tagger.GenerateTags(""); // This will just reset the regions
 
+                IOutliningManagerService outliningManagerService = componentModel.GetService<IOutliningManagerService>();
+
+                IOutliningManager _outliningManager = outliningManagerService.GetOutliningManager(textView);
+                var snapshot = textView.TextSnapshot;
+                var snapshotSpan = new Microsoft.VisualStudio.Text.SnapshotSpan(snapshot, new Microsoft.VisualStudio.Text.Span(0, snapshot.Length));
+
+                var regions = _outliningManager.GetCollapsedRegions(snapshotSpan);
+                foreach (var reg in regions)
+                {
+                    _outliningManager.Expand(reg as ICollapsed);
+                }
             }
         }
     }
-    
 }
