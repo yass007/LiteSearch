@@ -190,10 +190,7 @@ internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
             }
         }
 
-        if(AreTagsActive())
-        {
-            targetText = textToLookFor;
-        }
+        targetText = textToLookFor;
     }
 
     static SnapshotSpan AsSnapshotSpan(Region region, ITextSnapshot snapshot)
