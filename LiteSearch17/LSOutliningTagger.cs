@@ -109,40 +109,46 @@ internal sealed class LSOutliningTagger : ITagger<IOutliningRegionTag>
         List<Region> newRegions = new List<Region>();
 
 
+        int AdditionalOffset = 2;
+
         int StartLine = 0;
+        int EndLine = 0;
 
         if (textToLookFor != "")
         {
             foreach (var line in newSnapshot.Lines)
             {
-                int regionStart = -1;
                 string text = line.GetText();
 
-                if ((regionStart = text.IndexOf(textToLookFor, StringComparison.Ordinal)) != -1)
+                if (text.IndexOf(textToLookFor, StringComparison.Ordinal) != -1)
                 {
-                    if (line.LineNumber > StartLine)
+                    EndLine = line.LineNumber - (1 + AdditionalOffset);
+
+                    if (EndLine > StartLine)
                     {
                         newRegions.Add(new Region()
                         {
                             Level = 1,
                             StartLine = StartLine,
                             StartOffset = 0,
-                            EndLine = line.LineNumber - 1
+                            EndLine = EndLine
                         });
                     }
 
-                    StartLine = line.LineNumber + 1;
+                    StartLine = line.LineNumber + (1 + AdditionalOffset);
                 }
             }
 
-            if (StartLine < (newSnapshot.LineCount - 1))
+            EndLine = (newSnapshot.LineCount - 1);
+
+            if (EndLine > StartLine )
             {
                 newRegions.Add(new Region()
                 {
                     Level = 1,
                     StartLine = StartLine,
                     StartOffset = 0,
-                    EndLine = newSnapshot.LineCount - 1
+                    EndLine = EndLine
                 });
             }
         }
