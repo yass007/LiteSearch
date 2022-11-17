@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace HelloWorld
+namespace LiteSearch
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -24,12 +24,12 @@ namespace HelloWorld
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(HelloWorldPackage.PackageGuidString)]
+    [Guid(LiteSearchPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    public sealed class HelloWorldPackage : AsyncPackage
+    public sealed class LiteSearchPackage : AsyncPackage
     {
         /// <summary>
-        /// HelloWorldPackage GUID string.
+        /// LiteSearchPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "22101a20-2fa9-407d-89f5-f36e04a493a1";
 

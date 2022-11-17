@@ -2,10 +2,10 @@
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace HelloWorld
+namespace LiteSearch
 {
     /// <summary>
-    /// Classification type definition export for EditorClassifier1
+    /// Classification type definition export for LSEditorClassifier
     /// </summary>
     internal static class EditorClassifier1ClassificationDefinition
     {
@@ -13,10 +13,10 @@ namespace HelloWorld
 #pragma warning disable 169
 
         /// <summary>
-        /// Defines the "EditorClassifier1" classification type.
+        /// Defines the "LSEditorClassifier" classification type.
         /// </summary>
         [Export(typeof(ClassificationTypeDefinition))]
-        [Name("EditorClassifier1")]
+        [Name("LSEditorClassifier")]
         private static ClassificationTypeDefinition typeDefinition;
 
 #pragma warning restore 169

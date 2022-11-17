@@ -22,7 +22,7 @@
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidHelloWorldPackage">
+  <Commands package="guidLiteSearchPackage">
     <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidHelloWorldPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidLiteSearchPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
     </Groups>
@@ -52,11 +52,11 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidHelloWorldPackageCmdSet" id="CommandId" priority="0x0100" type="Button">
-        <Parent guid="guidHelloWorldPackageCmdSet" id="MyMenuGroup" />
+      <Button guid="guidLiteSearchPackageCmdSet" id="CommandId" priority="0x0100" type="Button">
+        <Parent guid="guidLiteSearchPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Solved!!</ButtonText>
+          <ButtonText>LiteSearch3</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -73,8 +73,7 @@
   </Commands>
 	
 	<KeyBindings>
-		<KeyBinding guid="guidHelloWorldPackageCmdSet" id="CommandId"
-			key1="=" mod1="Control" editor="guidTextEditor" />
+		<KeyBinding guid="guidLiteSearchPackageCmdSet" id="CommandId" editor="guidTextEditor" key1="M" mod1="Control" key2="K" mod2="Control"/>
 	</KeyBindings>
 	
   <Symbols>
@@ -82,10 +81,10 @@
     <GuidSymbol name="guidTextEditor" value="{8b382828-6202-11d1-8870-0000f87579d2}" />
 	  
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidHelloWorldPackage" value="{22101a20-2fa9-407d-89f5-f36e04a493a1}" />
+    <GuidSymbol name="guidLiteSearchPackage" value="{22101a20-2fa9-407d-89f5-f36e04a493a1}" />
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidHelloWorldPackageCmdSet" value="{e855bfbb-be87-4335-beff-c580ada2e75d}">
+    <GuidSymbol name="guidLiteSearchPackageCmdSet" value="{e855bfbb-be87-4335-beff-c580ada2e75d}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="CommandId" value="0x0100" />
     </GuidSymbol>

@@ -3,14 +3,14 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace HelloWorld
+namespace LiteSearch
 {
     /// <summary>
     /// Classifier provider. It adds the classifier to the set of classifiers.
     /// </summary>
     [Export(typeof(IClassifierProvider))]
     [ContentType("text")] // This classifier applies to all text files.
-    internal class EditorClassifier1Provider : IClassifierProvider
+    internal class LSEditorClassifierProvider : IClassifierProvider
     {
         // Disable "Field is never assigned to..." compiler's warning. Justification: the field is assigned by MEF.
 #pragma warning disable 649
@@ -33,7 +33,7 @@ namespace HelloWorld
         /// <returns>A classifier for the text buffer, or null if the provider cannot do so in its current state.</returns>
         public IClassifier GetClassifier(ITextBuffer buffer)
         {
-            IClassifier classifier = buffer.Properties.GetOrCreateSingletonProperty<EditorClassifier1>(creator: () => new EditorClassifier1(this.classificationRegistry, buffer));
+            IClassifier classifier = buffer.Properties.GetOrCreateSingletonProperty<LSEditorClassifier>(creator: () => new LSEditorClassifier(this.classificationRegistry, buffer));
             return classifier;
         }
 

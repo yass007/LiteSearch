@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
-internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
+internal sealed class LSOutliningTagger : ITagger<IOutliningRegionTag>
 {
     string ellipsis = "...";    //the characters that are displayed when the region is collapsed
     string hoverText = "hover text"; //the contents of the tooltip for the collapsed span
@@ -24,7 +24,7 @@ internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
         get { return targetText; }
     }
 
-    public OutliningTagger(ITextBuffer buffer)
+    public LSOutliningTagger(ITextBuffer buffer)
     {
         this.buffer = buffer;
         this.snapshot = buffer.CurrentSnapshot;

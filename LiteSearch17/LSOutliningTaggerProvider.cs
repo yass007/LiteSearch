@@ -12,12 +12,12 @@ using Microsoft.VisualStudio.Text;
 [Export(typeof(ITaggerProvider))]
 [TagType(typeof(IOutliningRegionTag))]
 [ContentType("text")]
-internal sealed class OutliningTaggerProvider : ITaggerProvider
+internal sealed class LSOutliningTaggerProvider : ITaggerProvider
 {
     public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
     {
         //create a single tagger for each buffer.
-        Func<ITagger<T>> sc = delegate () { return new OutliningTagger(buffer) as ITagger<T>; };
+        Func<ITagger<T>> sc = delegate () { return new LSOutliningTagger(buffer) as ITagger<T>; };
 
         ITagger < T > tagger = buffer.Properties.GetOrCreateSingletonProperty<ITagger<T>>(sc);
         return tagger;

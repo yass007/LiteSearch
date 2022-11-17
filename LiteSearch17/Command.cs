@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace HelloWorld
+namespace LiteSearch
 {
     /// <summary>
     /// Command handler
@@ -122,7 +122,7 @@ namespace HelloWorld
 
             var textBuffer = textView.TextBuffer;
 
-            var tagger = textBuffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>)) as OutliningTagger;
+            var tagger = textBuffer.Properties.GetProperty(typeof(ITagger<IOutliningRegionTag>)) as LSOutliningTagger;
 
             if(!tagger.AreTagsActive())
             {
@@ -175,6 +175,8 @@ namespace HelloWorld
                 {
                     _outliningManager.Expand(reg as ICollapsed);
                 }
+
+                textView.DisplayTextLineContainingBufferPosition(textView.Caret.Position.BufferPosition, 400.0, ViewRelativePosition.Top);
             }
         }
     }
