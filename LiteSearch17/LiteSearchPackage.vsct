@@ -56,7 +56,7 @@
         <Parent guid="guidLiteSearchPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>LiteSearch3</ButtonText>
+          <ButtonText>Run LiteSearch</ButtonText>
         </Strings>
       </Button>
     </Buttons>

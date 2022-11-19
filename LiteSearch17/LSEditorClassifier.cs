@@ -55,20 +55,16 @@ namespace LiteSearch
         /// <returns>A list of ClassificationSpans that represent spans identified to be of this classification.</returns>
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {
-            ReParse();
-
-            return classificationSpans;
+            return ReParse(span);
         }
 
         ITextBuffer buffer;
         List<ClassificationSpan> classificationSpans = new List<ClassificationSpan>();
 
-        public void ReParse()
+        public List<ClassificationSpan> ReParse(SnapshotSpan span)
         {
             ITextSnapshot newSnapshot = buffer.CurrentSnapshot;
             List<ClassificationSpan> newClassificationSpans = new List<ClassificationSpan>();
-
-
 
             object taggerProperty = null;
 
@@ -78,72 +74,22 @@ namespace LiteSearch
 
                 string targetString = tagger.TargetText;
 
-
-                int changeStart = int.MaxValue;
-                int changeEnd = -1;
-
                 if (targetString != "")
                 {
-                    foreach (var line in newSnapshot.Lines)
+                    string textToSearch = span.GetText();
+
+                    int wordOffset = 0;
+
+                    while ((wordOffset = textToSearch.IndexOf(targetString, wordOffset, StringComparison.Ordinal)) != -1)
                     {
-                        int wordOffset = 0;
-                        string text = line.GetText();
+                        newClassificationSpans.Add(new ClassificationSpan(new SnapshotSpan(span.Start.Add(wordOffset), span.Start.Add(wordOffset + targetString.Length)), this.classificationType));
 
-                        while ((wordOffset = text.IndexOf(targetString, wordOffset, StringComparison.Ordinal)) != -1)
-                        {
-                            var startPoint = newSnapshot.GetLineFromLineNumber(line.LineNumber);
-
-                            newClassificationSpans.Add(new ClassificationSpan(new SnapshotSpan(startPoint.Start + wordOffset, startPoint.Start + wordOffset + targetString.Length), this.classificationType));
-
-                            wordOffset += targetString.Length;
-                        }
-                    }
-
-                    //determine the changed span, and send a changed event with the new spans
-                    List<Span> oldSpans =
-                        new List<Span>(this.classificationSpans.Select(c => c.Span
-                            .TranslateTo(newSnapshot, SpanTrackingMode.EdgeExclusive)
-                            .Span));
-                    List<Span> newSpans =
-                            new List<Span>(newClassificationSpans.Select(c => c.Span.Span));
-
-                    NormalizedSpanCollection oldSpanCollection = new NormalizedSpanCollection(oldSpans);
-                    NormalizedSpanCollection newSpanCollection = new NormalizedSpanCollection(newSpans);
-
-                    //the changed regions are regions that appear in one set or the other, but not both.
-                    NormalizedSpanCollection removed =
-                    NormalizedSpanCollection.Difference(oldSpanCollection, newSpanCollection);
-
-                    if (removed.Count > 0)
-                    {
-                        changeStart = removed[0].Start;
-                        changeEnd = removed[removed.Count - 1].End;
-                    }
-
-                    if (newSpans.Count > 0)
-                    {
-                        changeStart = Math.Min(changeStart, newSpans[0].Start);
-                        changeEnd = Math.Max(changeEnd, newSpans[newSpans.Count - 1].End);
-                    }
-                }
-                else
-                {
-                    changeStart = newSnapshot.CreateTrackingPoint(0, PointTrackingMode.Positive).GetPosition(newSnapshot);
-                    changeEnd = newSnapshot.CreateTrackingPoint(newSnapshot.Length, PointTrackingMode.Positive).GetPosition(newSnapshot);
-                }
-
-                this.classificationSpans = newClassificationSpans;
-
-                if (changeStart <= changeEnd)
-                {
-                    //ITextSnapshot snap = this.snapshot;
-                    if (this.ClassificationChanged != null)
-                    {
-                        this.ClassificationChanged(this, new ClassificationChangedEventArgs(
-                            new SnapshotSpan(newSnapshot, Span.FromBounds(changeStart, changeEnd))));
+                        wordOffset += targetString.Length;
                     }
                 }
             }
+
+            return newClassificationSpans;
         }
     }
 

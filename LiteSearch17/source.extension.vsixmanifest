@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="LiteSearch.c0a33ceb-0bd0-469f-8567-6d5d9928b9e3" Version="1.001" Language="en-US" Publisher="Admin DS" />
+        <Identity Id="LiteSearch.c0a33ceb-0bd0-469f-8567-6d5d9928b9e3" Version="1.002" Language="en-US" Publisher="KnownShippable" />
         <DisplayName>LiteSearch</DisplayName>
-        <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <Description xml:space="preserve">Collapses the text around occurences of the word currently under the carret. Toggle by pressing (CTRL+M+K).Coll</Description>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
