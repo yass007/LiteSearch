@@ -3,9 +3,79 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace LiteSearch
 {
+    public sealed class OptionsAccessor
+    {
+        private static readonly OptionsAccessor instance = new OptionsAccessor();
+
+        static OptionsAccessor()
+        {
+        }
+
+        private OptionsAccessor()
+        {
+        }
+
+        public static OptionsAccessor Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        private int extraLines = 2;
+        public int ExtraLines
+        {
+            get { return extraLines; }
+            set 
+            {
+                if (value < 0)
+                    extraLines = 0;
+                else if (value > 10)
+                    extraLines = 10;
+                else
+                    extraLines = value;
+            }
+        }
+
+        private bool caseSensitiveSearch = true;
+
+        [Category("Search options")]
+        [DisplayName("Case Sensitive")]
+        [Description("Case sensitivity setting")]
+        public bool CaseSensitive
+        {
+            get { return caseSensitiveSearch; }
+            set { caseSensitiveSearch = value; }
+        }
+    }
+
+    public class OptionPageGrid : DialogPage
+    {
+        [Category("Viewer options")]
+        [DisplayName("Extra lines")]
+        [Description("Number of extra context lines around the searched text (Max = 10).")]
+        public int ExtraLines
+        {
+            get { return OptionsAccessor.Instance.ExtraLines; }
+            set { OptionsAccessor.Instance.ExtraLines = value; }
+        }
+
+        [Category("Search options")]
+        [DisplayName("Case Sensitive")]
+        [Description("Case sensitivity setting")]
+        public bool CaseSensitive
+        {
+            get { return OptionsAccessor.Instance.CaseSensitive; }
+            set { OptionsAccessor.Instance.CaseSensitive = value; }
+        }
+    }
+
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -26,6 +96,8 @@ namespace LiteSearch
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(LiteSearchPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(OptionPageGrid),
+    "LiteSearch", "General", 0, 0, true)]
     public sealed class LiteSearchPackage : AsyncPackage
     {
         /// <summary>
@@ -51,5 +123,24 @@ namespace LiteSearch
         }
 
         #endregion
+
+        public int OptionExtraLines
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ExtraLines;
+            }
+        }
+
+        public bool OptionCaseSensitive
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.CaseSensitive;
+            }
+        }
+
     }
 }

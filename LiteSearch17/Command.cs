@@ -110,6 +110,11 @@ namespace LiteSearch
             ////    OLEMSGICON.OLEMSGICON_INFO,
             ////    OLEMSGBUTTON.OLEMSGBUTTON_OK,
             ////    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            ///
+
+            // Cache the options here...
+            OptionsAccessor.Instance.CaseSensitive = (package as LiteSearchPackage).OptionCaseSensitive;
+            OptionsAccessor.Instance.ExtraLines = (package as LiteSearchPackage).OptionExtraLines;
 
             var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
             var textManager = (IVsTextManager)Package.GetGlobalService(typeof(SVsTextManager));

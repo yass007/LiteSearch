@@ -108,8 +108,8 @@ internal sealed class LSOutliningTagger : ITagger<IOutliningRegionTag>
         ITextSnapshot newSnapshot = buffer.CurrentSnapshot;
         List<Region> newRegions = new List<Region>();
 
-
-        int AdditionalOffset = 2;
+        StringComparison stringComparison = LiteSearch.OptionsAccessor.Instance.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+        int additionalOffset = LiteSearch.OptionsAccessor.Instance.ExtraLines;
 
         int StartLine = 0;
         int EndLine = 0;
@@ -120,9 +120,9 @@ internal sealed class LSOutliningTagger : ITagger<IOutliningRegionTag>
             {
                 string text = line.GetText();
 
-                if (text.IndexOf(textToLookFor, StringComparison.Ordinal) != -1)
+                if (text.IndexOf(textToLookFor, stringComparison) != -1)
                 {
-                    EndLine = line.LineNumber - (1 + AdditionalOffset);
+                    EndLine = line.LineNumber - (1 + additionalOffset);
 
                     if (EndLine > StartLine)
                     {
@@ -135,7 +135,7 @@ internal sealed class LSOutliningTagger : ITagger<IOutliningRegionTag>
                         });
                     }
 
-                    StartLine = line.LineNumber + (1 + AdditionalOffset);
+                    StartLine = line.LineNumber + (1 + additionalOffset);
                 }
             }
 

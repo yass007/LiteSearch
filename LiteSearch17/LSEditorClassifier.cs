@@ -80,7 +80,7 @@ namespace LiteSearch
 
                     int wordOffset = 0;
 
-                    while ((wordOffset = textToSearch.IndexOf(targetString, wordOffset, StringComparison.Ordinal)) != -1)
+                    while ((wordOffset = textToSearch.IndexOf(targetString, wordOffset, LiteSearch.OptionsAccessor.Instance.CaseSensitive? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase)) != -1)
                     {
                         newClassificationSpans.Add(new ClassificationSpan(new SnapshotSpan(span.Start.Add(wordOffset), span.Start.Add(wordOffset + targetString.Length)), this.classificationType));
 
