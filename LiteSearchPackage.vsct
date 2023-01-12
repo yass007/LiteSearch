@@ -52,6 +52,7 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
+     
       <Button guid="guidLiteSearchPackageCmdSet" id="CommandId" priority="0x0100" type="Button">
         <Parent guid="guidLiteSearchPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
@@ -59,7 +60,7 @@
           <ButtonText>Run LiteSearch</ButtonText>
         </Strings>
       </Button>
-    </Buttons>
+  </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
     <Bitmaps>
