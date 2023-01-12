@@ -9,7 +9,7 @@ Toggle by pressing (Ctrl-M, Ctrl-K).
 
 Currently available options:
 
-![image](https://user-images.githubusercontent.com/2611324/212171106-8a463583-f764-4e7c-bd62-7146c54c62d5.png)
+![image](https://user-images.githubusercontent.com/2611324/212172838-5f6c3108-0ad6-47ad-9651-bb9e9fa130f1.png)
 
 
 Supports:
