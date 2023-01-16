@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="LiteSearch.c0a33ceb-0bd0-469f-8567-6d5d9928b9e3" Version="1.004" Language="en-US" Publisher="Yassine Riahi (KnownShippable.com)" />
+        <Identity Id="LiteSearch.c0a33ceb-0bd0-469f-8567-6d5d9928b9e3" Version="1.005" Language="en-US" Publisher="KnownShippable" />
         <DisplayName>LiteSearch</DisplayName>
-        <Description xml:space="preserve">Aims to simplify code navigation in large files. Collapses the text around occurences of the word currently under the carret. Toggle by pressing (Ctrl-M, Ctrl-K).</Description>
+        <Description xml:space="preserve">Aims to simplify code navigation in large files. Collapses the text around occurrences of the word currently under the carret. Toggle by pressing (Ctrl-M, Ctrl-K).</Description>
         <MoreInfo>https://knownshippable.com/</MoreInfo>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Pro">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
