@@ -1,7 +1,7 @@
 # LiteSearch
 
 Visual Studio Extension that aims to simplify code navigation in large files.
-Collapses the text around occurences of the word currently under the carret. 
+Collapses the text around occurrences of the word currently under the caret. 
 Toggle by pressing (Ctrl-M, Ctrl-K).
 
 
