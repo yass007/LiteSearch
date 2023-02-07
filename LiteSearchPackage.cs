@@ -12,10 +12,6 @@ namespace LiteSearch
     {
         private static readonly OptionsAccessor instance = new OptionsAccessor();
 
-        static OptionsAccessor()
-        {
-        }
-
         private OptionsAccessor()
         {
         }

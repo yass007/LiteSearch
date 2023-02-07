@@ -163,6 +163,8 @@ namespace LiteSearch
                             _outliningManager.TryCollapse(reg);
                         }
                     }
+
+                    textView.DisplayTextLineContainingBufferPosition(textView.Caret.Position.BufferPosition, textView.ViewportHeight / 2.0f, ViewRelativePosition.Top);
                 }
             }
             else
@@ -181,7 +183,7 @@ namespace LiteSearch
                     _outliningManager.Expand(reg as ICollapsed);
                 }
 
-                textView.DisplayTextLineContainingBufferPosition(textView.Caret.Position.BufferPosition, 400.0, ViewRelativePosition.Top);
+                textView.DisplayTextLineContainingBufferPosition(textView.Caret.Position.BufferPosition, textView.ViewportHeight/2.0f, ViewRelativePosition.Top);
             }
         }
     }
